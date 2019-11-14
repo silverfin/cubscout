@@ -54,7 +54,7 @@ module Cubscout
             TEXT
           end
 
-          OAuth2::Client.new(@client_id, @client_secret, site: api_prefix, token_url: '/oauth2/token')
+          OAuth2::Client.new(@client_id, @client_secret, site: URI.join(api_prefix, '/').to_s, token_url: "#{URI::parse(api_prefix).path}/oauth2/token")
         end
       end
     end
