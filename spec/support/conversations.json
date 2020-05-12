@@ -83,8 +83,8 @@
   },
   "page": {
     "number": 1,
-    "size": 50,
+    "size": 2,
     "totalPages": 3,
-    "totalElements": 132
+    "totalElements": 6
   }
 }

@@ -45,5 +45,5 @@
     "page": {"href": "https://api.helpscout.net/v2/users?page=1"},
     "self": {"href": "https://api.helpscout.net/v2/users?page=1"}
   },
- "page": {"size": 50, "totalElements": 81, "totalPages": 2, "number": 1}
+ "page": {"size": 3, "totalElements": 6, "totalPages": 2, "number": 1}
 }

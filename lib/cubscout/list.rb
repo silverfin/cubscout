@@ -18,7 +18,7 @@ module Cubscout
       raw_payload.dig("page", "number")
     end
 
-    # number of items in the current page (number of +items+)
+    # number of items in the current page. Should be the same as number of +items+, but sometimes it's not (assumption: it's a bug in helpscout)
     def page_size
       raw_payload.dig("page", "size")
     end
@@ -29,13 +29,18 @@ module Cubscout
     end
 
     # total number of items available
-    def size
+    def total_size
       raw_payload.dig("page", "totalElements")
     end
 
     # array of objects Object retrieved from the API's collection endpoint.
     def items
       Array(raw_payload.dig("_embedded", collection_name)).map { |item| object_class.new(item) }
+    end
+
+    # number of +items+
+    def size
+      items.size
     end
 
     def each(&block)

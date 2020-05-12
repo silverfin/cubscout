@@ -8,7 +8,7 @@ module Cubscout
   #  Foo.all(page: 1)
   module Scopes
     module ClassMethods
-      # DSL: necessary to endpoint of the resources to query.
+      # DSL: necessary to provide the endpoint of the resources to query.
       # @param path [String] path to the endpoint, without leading slash
       # @example
       #   class Conversation
@@ -26,23 +26,36 @@ module Cubscout
 
       # used with a collection endpoint, get all objects of a certain kind
       # @param options [Hash] Optional query params described in Helspcout API documentation
-      # @return [Array<Object>] Returns an array of the class where the method is called.
-      #   Example: +Foo.all # => returns Array<Foo>+
+      # @return [Cubscout::List] Returns a List collection where items are instances of the class where the method is called.
+      # @example
+      #   foos = Foo.all(tag: "bar")
+      #   foos.total_size # 335 with this filter
+      #   foos.each { |foo_element| puts "ID is #{foo_element.id}" }
       def all(options = {})
         raise "No path given" unless path
 
-        first_page = List.new(Cubscout.connection.get(path, page: options[:page] || 1, **options).body, path, self)
+        raw_first_or_requested_page = Cubscout.connection.get(path, page: options[:page] || 1, **options).body
+        first_or_requested_page = List.new(raw_first_or_requested_page, path, self)
 
         if options[:page]
-          first_page.items
+          first_or_requested_page
         else
-          last_page = first_page.number_of_pages
+          last_page_number = first_or_requested_page.number_of_pages
 
-          other_pages = (2..last_page).to_a.map do |page|
-            List.new(Cubscout.connection.get(path, page: page, **options).body, path, self)
+          raw_other_pages_items = (2..last_page_number).to_a.map do |page|
+            Array(Cubscout.connection.get(path, page: page, **options).body.dig("_embedded", path))
           end
 
-          (first_page.items + other_pages.map(&:items)).flatten
+          raw_all_pages = {
+            "_embedded" => { path => (Array(raw_first_or_requested_page.dig("_embedded", path)) + raw_other_pages_items).flatten },
+            "page" => {
+              "number" => first_or_requested_page.page,
+              "size" => first_or_requested_page.total_size,
+              "totalPages" => first_or_requested_page.number_of_pages,
+              "totalElements" => first_or_requested_page.total_size
+            }
+          }
+          List.new(raw_all_pages, path, self)
         end
       end
 
