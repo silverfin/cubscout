@@ -30,6 +30,7 @@
         "bcc": [],
         "primaryCustomer": {"id": 999888},
         "customFields": [],
+        "_embedded": {"threads": []},
         "_links": {
           "closedBy": {"href": "https://api.helpscout.net/v2/users/0"},
           "createdByCustomer": {"href": "https://api.helpscout.net/v2/customers/999888"},
@@ -69,6 +70,7 @@
         "bcc": [],
         "primaryCustomer": {"id": 3333222},
         "customFields": [],
+        "_embedded": {"threads": []},
         "_links": {
           "closedBy": {"href": "https://api.helpscout.net/v2/users/0"},
           "createdByCustomer": {"href": "https://api.helpscout.net/v2/customers/3333222"},

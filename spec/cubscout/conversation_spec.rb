@@ -39,6 +39,16 @@ RSpec.describe Cubscout::Conversation do
       expect(convo.class).to eq Cubscout::Conversation
     end
 
+    it "gets one conversation with threads" do
+      stub_request(:get, %r{https://api.helpscout.net/v2/conversations/\d+\?embed=threads}).
+        to_return(status: 200, body: File.read("#{__dir__}/../support/conversation_with_threads.json"))
+
+      convo = Cubscout::Conversation.find(123, embed: "threads")
+
+      expect(convo.class).to eq Cubscout::Conversation
+      expect(convo.threads.size).to eq 3
+    end
+
     it "attributes are readable as both camel case and snake case" do
       stub_request(:get, %r{https://api.helpscout.net/v2/conversations/\d+}).
         to_return(status: 200, body: File.read("#{__dir__}/../support/conversation.json"))
@@ -137,22 +147,40 @@ RSpec.describe Cubscout::Conversation do
   end
 
   describe "#assignee" do
-    it "returns the user assigned to the conversation" do
+    it "returns the user assigned to the conversation with only the attributes in conversation payload" do
+      user = Cubscout::Conversation.new(id: 123, assignee: {id: 55667, first: "Jules"}).assignee
+
+      expect(user.class).to eq Cubscout::User
+      expect(user.first_name).to eq "Jules"
+    end
+
+    it "returns the user assigned to the conversation by fetching helpscout" do
       stub_request(:get, %r{https://api.helpscout.net/v2/users/\d+}).
         to_return(status: 200, body: File.read("#{__dir__}/../support/user.json"))
 
-      user = Cubscout::Conversation.new(id: 123, assignee: {id: 55667}).assignee
+      user = Cubscout::Conversation.new(id: 123, assignee: {id: 55667}).assignee(fetch: true)
 
       expect(user.class).to eq Cubscout::User
+      expect(user.role).to eq "owner"
     end
   end
 
   describe "#threads" do
-    it "gets the threads of a conversation" do
+    it "gets the threads of a conversation by fetching Helpscout" do
       stub_request(:get, %r{https://api.helpscout.net/v2/conversations/\d+/threads}).
         to_return(status: 200, body: File.read("#{__dir__}/../support/threads.json"))
 
-      threads = Cubscout::Conversation.new(id: 123).threads
+      threads = Cubscout::Conversation.new(id: 123).threads(fetch: true)
+
+      expect(threads.size).to eq 3
+      expect(threads.first.class).to eq Cubscout::Object
+    end
+
+    it "gets the threads of a conversation by embedding them in conversation" do
+      stub_request(:get, %r{https://api.helpscout.net/v2/conversations/\d+\?embed=threads}).
+        to_return(status: 200, body: File.read("#{__dir__}/../support/conversation_with_threads.json"))
+
+      threads = Cubscout::Conversation.find(123, embed: "threads").threads
 
       expect(threads.size).to eq 3
       expect(threads.first.class).to eq Cubscout::Object

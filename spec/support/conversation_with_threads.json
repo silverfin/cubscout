@@ -1,0 +1,155 @@
+{
+  "id": 123123123,
+  "number": 12121,
+  "threads": 1,
+  "type": "email",
+  "folderId": 321321321,
+  "status": "active",
+  "state": "published",
+  "subject": "The email subject",
+  "preview": "I'm a customer and I have a problem",
+  "mailboxId": 121212,
+  "createdBy": {
+    "id": 999888,
+    "type": "customer",
+    "first": "Jules",
+    "last": "Verne",
+    "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+    "email": "jules.verne@aroundtheworld.com"
+  },
+  "createdAt": "2019-04-22T09:04:29Z",
+  "closedBy": 0,
+  "userUpdatedAt": "2019-04-22T09:04:29Z",
+  "customerWaitingSince": {
+    "time": "2019-04-22T09:04:29Z",
+    "friendly": "27 min ago"
+  },
+  "source": {
+    "type": "email",
+    "via": "customer"
+  },
+  "tags": [],
+  "cc": [],
+  "bcc": [],
+  "primaryCustomer": {"id": 999888},
+  "customFields": [],
+  "_embedded": {
+    "threads": [
+      {
+        "id": 44455666777,
+        "type": "note",
+        "status": "active",
+        "state": "published",
+        "action":{"type": "default"},
+        "body": "Email body<br />can contain html<br /><a href=\"https://foo.bar\">foobar</a>",
+        "source":{"type": "web", "via": "user"},
+        "customer":
+         {
+          "id": 999888,
+          "first": "Jules",
+          "last": "Verne",
+          "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+          "email": "jules.verne@aroundtheworld.com"
+        },
+        "createdBy":{
+          "id":777666,
+          "type": "user",
+          "first": "Rob",
+          "last": "Employee",
+          "email": "rob@employee.com"
+        },
+        "assignedTo":{"id":998877, "type": "team", "first": "Urgent matters", "last": "", "email": ""},
+        "savedReplyId": 0,
+        "to":[],
+        "cc":[],
+        "bcc":[],
+        "createdAt": "2019-04-19T08:03:19Z",
+        "_embedded":{"attachments":[]},
+        "_links": {
+          "assignedTo":{"href": "https://api.helpscout.net/v2/users/998877"},
+          "createdByUser":{"href": "https://api.helpscout.net/v2/users/777666"},
+          "customer":{"href": "https://api.helpscout.net/v2/customers/999888"}
+        }
+      }, {
+        "id": 44455666732,
+        "type": "customer",
+        "status": "active",
+        "state": "published",
+        "action":{"type": "default"},
+        "body": "another reply",
+        "source":{"type": "email", "via": "customer"},
+        "customer": {
+          "id": 999888,
+          "first": "Jules",
+          "last": "Verne",
+          "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+          "email": "jules.verne@aroundtheworld.com"
+        },
+        "createdBy": {
+          "id": 999888,
+          "type": "customer",
+          "first": "Jules",
+          "last": "Verne",
+          "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+          "email": "jules.verne@aroundtheworld.com"
+        },
+        "assignedTo":{"id":1, "first": "Help", "last": "Scout", "email": "none@nowhere.com"},
+        "savedReplyId": 0,
+        "to":[],
+        "cc":[],
+        "bcc":[],
+        "createdAt": "2019-04-19T07:58:17Z",
+        "_embedded":{"attachments":[]},
+        "_links": {
+          "assignedTo":{"href": "https://api.helpscout.net/v2/users/1"},
+          "createdByCustomer":{"href": "https://api.helpscout.net/v2/customers/999888"},
+          "customer":{"href": "https://api.helpscout.net/v2/customers/999888"}
+        }
+      }, {
+        "id": 44455666712,
+        "type": "customer",
+        "status": "active",
+        "state": "published",
+        "action":{"type": "default"},
+        "body": "I have a problem",
+        "source":{"type": "email", "via": "customer"},
+        "customer": {
+          "id": 999888,
+          "first": "Jules",
+          "last": "Verne",
+          "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+          "email": "jules.verne@aroundtheworld.com"
+        },
+        "createdBy": {
+          "id": 999888,
+          "type": "customer",
+          "first": "Jules",
+          "last": "Verne",
+          "photoUrl": "https://d33v4339jhl8k0.cloudfront.net/customer-avatar/05.png",
+          "email": "jules.verne@aroundtheworld.com"
+        },
+        "assignedTo":{"id":1, "first": "Help", "last": "Scout", "email": "none@nowhere.com"},
+        "savedReplyId": 0,
+        "to":[],
+        "cc":[],
+        "bcc":[],
+        "createdAt": "2019-04-18T13:15:03Z",
+        "_embedded":{"attachments":[]},
+        "_links": {
+          "assignedTo":{"href": "https://api.helpscout.net/v2/users/1"},
+          "createdByCustomer":{"href": "https://api.helpscout.net/v2/customers/999888"},
+          "customer":{"href": "https://api.helpscout.net/v2/customers/999888"}
+        }
+      }
+    ]
+  },
+  "_links": {
+    "closedBy": {"href": "https://api.helpscout.net/v2/users/0"},
+    "createdByCustomer": {"href": "https://api.helpscout.net/v2/customers/999888"},
+    "mailbox": {"href": "https://api.helpscout.net/v2/mailboxes/121212"},
+    "primaryCustomer": {"href": "https://api.helpscout.net/v2/customers/999888"},
+    "self": {"href": "https://api.helpscout.net/v2/conversations/123123123"},
+    "threads": {"href": "https://api.helpscout.net/v2/conversations/123123123/threads/"},
+    "web": {"href": "https://secure.helpscout.net/conversation/123123123/59596"}
+  }
+}

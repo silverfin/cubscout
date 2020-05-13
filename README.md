@@ -73,6 +73,10 @@ conversation = Cubscout::Conversation.find(12345)
 # which attributes can be read. attributes can be read as snake case or camel case.
 puts conversation.mailbox_id
 puts conversation.mailboxId
+
+# By default, the threads are not embedded in the conversations payload. They can
+# optionally be returned with the `embed` option:
+Cubscout::Conversation.find(12345, embed: "threads")
 ```
 
 Check Helpscout's API documentation for all [attributes returned](https://developer.helpscout.com/mailbox-api/endpoints/conversations/get/#response)
@@ -96,11 +100,23 @@ In Helpscout's lingo, threads are all the items following a conversation: notes,
 Get the threads for a conversation:
 
 ```ruby
-# by conversation id:
+# by conversation id, will make a request to Helpscout:
 threads = Cubscout::Conversation.threads(conversation_id)
 
-# from a conversation object:
-also_threads = Cubscout::Conversation.find(id).threads
+# from a conversation object, either by embedding threads on conversation request:
+also_threads = Cubscout::Conversation.find(id, embed: 'threads').threads
+# or making the threads request with explicit `fetch` option, will make a request
+# to Helpscout:
+another_way_to_get_threads = Cubscout::Conversation.find(id).threads(fetch: true)
+```
+
+Threads can also be embedded to the List Conversations response payload:
+
+```ruby
+# By default, the threads are not embedded in the conversations payload. They can
+# optionally be returned with the `embed` option:
+conversations = Cubscout::Conversation.all(page: 1, tag: 'red,blue', embed: 'threads')
+threads = conversations.first.threads
 ```
 
 Check Helpscout's API documentation for all [attributes returned](https://developer.helpscout.com/mailbox-api/endpoints/conversations/threads/list/#response)
@@ -163,7 +179,14 @@ Check Helpscout's API documentation for all [attributes returned](https://develo
 Get a conversation's assigned user:
 
 ```ruby
+# With limited attributes returned in conversation payload. Small gotcha here:
+# - "first" attributes is renamed to "firstName"
+# - "last" attributes is renamed to "lastName"
+# to keep consistency with the attribute names returned from the /users endpoint
 user = Cubscout::Conversation.find(conversation_id).assignee
+
+# All attributes, will make a request to Helpscout:
+user = Cubscout::Conversation.find(conversation_id).assignee(fetch: true)
 ```
 
 ## Contributing
