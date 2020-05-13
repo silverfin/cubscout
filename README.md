@@ -39,11 +39,16 @@ List of conversations:
 conversations = Cubscout::Conversation.all
 
 # conversations with filters
-conversations = Cubscout::Conversation.all(page: 1, status: 'active')
+conversations = Cubscout::Conversation.all(tag: 'red,blue', status: 'active')
 
-# Cubscout::Conversation.all returns an array of Cubscout::Conversation objects, from
-# which attributes can be read
+# Cubscout::Conversation.all returns a Cubscout::List object. You can iterate
+# over it's Cubscout::Conversation items like this:
 conversations.each { |conversation| puts conversation.mailbox_id }
+
+# or you can also get some metadata information. For example if you only care
+# about the number of items, you can query the first page only and find out how
+# many elements exist in total:
+Cubscout::Conversation.all(page: 1, tag: 'red,blue', status: 'active').total_size
 ```
 
 Check Helpscout's API documentation for [all supported filters](https://developer.helpscout.com/mailbox-api/endpoints/conversations/list/#url-parameters) and [attributes returned](https://developer.helpscout.com/mailbox-api/endpoints/conversations/list/#response).
@@ -129,9 +134,14 @@ users = Cubscout::User.all
 # users with filters
 users = Cubscout::User.all(mailbox: 12345)
 
-# Cubscout::User.all returns an array of Cubscout::User objects, from
-# which attributes can be read.
+# Cubscout::User.all returns a Cubscout::List object. You can iterate over
+# it's Cubscout::User items like this:
 users.each { |user| puts user.first_name }
+
+# or you can also get some metadata information. For example if you only care
+# about the number of items, you can query the first page only and find out how
+# many elements exist in total:
+Cubscout::User.all(page: 1, mailbox: 12345).total_size
 ```
 
 Check Helpscout's API documentation for [all supported filters](https://developer.helpscout.com/mailbox-api/endpoints/users/list/#url-parameters) and [attributes returned](https://developer.helpscout.com/mailbox-api/endpoints/users/list/#response).
