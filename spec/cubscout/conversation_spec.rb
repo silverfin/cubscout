@@ -68,7 +68,7 @@ RSpec.describe Cubscout::Conversation do
       threads = Cubscout::Conversation.threads(123)
 
       expect(threads.size).to eq 3
-      expect(threads.first.class).to eq Cubscout::Object
+      expect(threads.first.class).to eq Cubscout::ThreadItem
     end
   end
 
@@ -173,7 +173,7 @@ RSpec.describe Cubscout::Conversation do
       threads = Cubscout::Conversation.new(id: 123).threads(fetch: true)
 
       expect(threads.size).to eq 3
-      expect(threads.first.class).to eq Cubscout::Object
+      expect(threads.first.class).to eq Cubscout::ThreadItem
     end
 
     it "gets the threads of a conversation by embedding them in conversation" do
@@ -183,7 +183,7 @@ RSpec.describe Cubscout::Conversation do
       threads = Cubscout::Conversation.find(123, embed: "threads").threads
 
       expect(threads.size).to eq 3
-      expect(threads.first.class).to eq Cubscout::Object
+      expect(threads.first.class).to eq Cubscout::ThreadItem
     end
   end
 

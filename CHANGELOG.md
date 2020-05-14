@@ -2,6 +2,7 @@
 
 **Breaking changes**
 
+- Use named `ThreadItem` and `Error` instead of generic object & error [#25](https://github.com/GetSilverfin/cubscout/pull/25)
 - On association method calls, do not make a request to Helpscout by default [#24](https://github.com/GetSilverfin/cubscout/pull/24)
 - `Cubscout::Scopes.all` method returns a `Cubscout::List` object instead of an array of items [#23](https://github.com/GetSilverfin/cubscout/pull/23)
 
