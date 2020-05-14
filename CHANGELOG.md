@@ -1,5 +1,7 @@
 ### Unreleased
 
+### 0.2.0 - 2020-05-14
+
 **Breaking changes**
 
 - Use named `ThreadItem` and `Error` instead of generic object & error [#25](https://github.com/GetSilverfin/cubscout/pull/25)
