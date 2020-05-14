@@ -49,17 +49,36 @@ module Cubscout
     end
 
     # Get the assignee of the conversation
+    # @param fetch [Boolean] Optional query to helpscout to fetch full user data.
+    #   By default, use limited data provided in conversation payload
     # @return [User, nil] User assigned to the conversation. Can be nil
-    def assignee
+    def assignee(fetch: false)
       return nil unless self.attributes.has_key?("assignee")
-      User.find(self.attributes.dig('assignee', 'id'))
+      if fetch
+        User.find(self.attributes.dig("assignee", "id"))
+      else
+        user_attributes = self.attributes.fetch("assignee").merge(
+          "firstName" => self.attributes.dig("assignee", "first"),
+          "lastName" => self.attributes.dig("assignee", "last")
+        )
+        User.new(user_attributes)
+      end
     end
 
     # Get the threads of the conversation. In Helpscout lingo, threads are all
     # the items following a conversation: notes, replies, assignment to users, etc.
+    # @param fetch [Boolean] Optional query to helpscout to fetch threads data.
+    #   By default, use data provided in conversation payload. Note that the
+    #   threads are only embedded to the conversation payload on demand, example:
+    #   +Cubscout::Conversation.all(tag: 'blue,red', embed: 'threads')+
+    #   +Cubscout::Conversation.find(1234567, embed: 'threads')+
     # @return [Array<Object>] thread items
-    def threads
-      Conversation.threads(self.id)
+    def threads(fetch: false)
+      if fetch
+        Conversation.threads(self.id)
+      else
+        self.attributes.dig("_embedded", "threads").map { |item| Object.new(item) }
+      end
     end
 
     # Create a note to a conversation.

@@ -61,10 +61,11 @@ module Cubscout
 
       # used with an instance endpoint, get one instance of an Object
       # @param id [Integer] ID of the object to get
+      # @param options [Hash] Optional query params described in Helspcout API documentation
       # @return [Object] Returns an instance of the class where the method is called.
       #   Example: +Foo.find(123) # => returns an instance of Foo+
-      def find(id)
-        self.new(Cubscout.connection.get("#{path}/#{id}").body)
+      def find(id, options = {})
+        self.new(Cubscout.connection.get("#{path}/#{id}", options).body)
       end
     end
 
