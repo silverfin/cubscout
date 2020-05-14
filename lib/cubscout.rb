@@ -10,6 +10,7 @@ require "cubscout/list"
 require "cubscout/object"
 require "cubscout/conversation"
 require "cubscout/user"
+require "cubscout/thread_item"
 
 module Cubscout
   class Error < StandardError; end

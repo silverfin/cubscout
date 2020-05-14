@@ -32,7 +32,7 @@ module Cubscout
       #   foos.total_size # 335 with this filter
       #   foos.each { |foo_element| puts "ID is #{foo_element.id}" }
       def all(options = {})
-        raise "No path given" unless path
+        raise Error, "`#{self}.all` method is not available" unless path
 
         raw_first_or_requested_page = Cubscout.connection.get(path, page: options[:page] || 1, **options).body
         first_or_requested_page = List.new(raw_first_or_requested_page, path, self)
@@ -65,6 +65,8 @@ module Cubscout
       # @return [Object] Returns an instance of the class where the method is called.
       #   Example: +Foo.find(123) # => returns an instance of Foo+
       def find(id, options = {})
+        raise Error, "`#{self}.find` method is not available" unless path
+
         self.new(Cubscout.connection.get("#{path}/#{id}", options).body)
       end
     end

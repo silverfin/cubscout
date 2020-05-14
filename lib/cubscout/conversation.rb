@@ -9,7 +9,7 @@ module Cubscout
       # @param id [Integer] the conversation ID
       # @return [Array<Object>] thread items
       def threads(id)
-        Cubscout.connection.get("#{path}/#{id}/threads").body.dig("_embedded", "threads").map { |item| Object.new(item) }
+        Cubscout.connection.get("#{path}/#{id}/threads").body.dig("_embedded", "threads").map { |item| ThreadItem.new(item) }
       end
 
       # Create a note to a conversation.
@@ -77,7 +77,7 @@ module Cubscout
       if fetch
         Conversation.threads(self.id)
       else
-        self.attributes.dig("_embedded", "threads").map { |item| Object.new(item) }
+        self.attributes.dig("_embedded", "threads").map { |item| ThreadItem.new(item) }
       end
     end
 
